@@ -10,3 +10,12 @@ dependencies.forEach(function (dependency) {
 		return require(dependency[1])
 	})
 })
+
+container.load(path.join(__dirname, '/controllers'))
+container.load(path.join(__dirname, '/helpers'))
+
+container.register('container', function () {
+	return container
+})
+
+module.exports = container
