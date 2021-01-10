@@ -1,0 +1,19 @@
+{
+  "name": "socketio-chat",
+  "version": "1.0.0",
+  "description": "Node with SocketIO Build A Full Web Chat App From Scratch",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frank-mendez/socketio-chat.git"
+  },
+  "author": "Frank R. Mendez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frank-mendez/socketio-chat/issues"
+  },
+  "homepage": "https://github.com/frank-mendez/socketio-chat#readme"
+}
