@@ -3,7 +3,10 @@ const path = require('path')
 
 const container = dependable.container()
 
-const dependencies = [['_', 'lodash']]
+const dependencies = [
+	['_', 'lodash'],
+	['async', 'async'],
+]
 
 dependencies.forEach(function (dependency) {
 	container.register(dependency[0], function () {
