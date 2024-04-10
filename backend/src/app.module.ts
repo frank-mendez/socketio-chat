@@ -7,13 +7,15 @@ import configuration from "../config/configuration";
 import {MikroOrmModule} from "@mikro-orm/nestjs";
 import {PostgreSqlDriver} from "@mikro-orm/postgresql";
 import {UserEntity} from "./db/entities/user.entity";
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
       ConfigModule.forRoot({
-           load: [configuration]
+          load: [configuration],
+          isGlobal: true,
+          cache: true,
       }),
-      AuthModule,
       MikroOrmModule.forRootAsync({
           imports: [ConfigModule],
           inject: [ConfigService],
@@ -49,7 +51,9 @@ import {UserEntity} from "./db/entities/user.entity";
                   warnWhenNoEntities: true,
               },
           })
-      })
+      }),
+      UserModule,
+      AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
