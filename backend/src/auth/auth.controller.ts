@@ -12,4 +12,9 @@ export class AuthController {
     async login(@Request() req: any) {
         return this.authService.login(req.user);
     }
+
+    @Post('signup')
+    async signup(@Request() req: any) {
+        return this.authService.signup(req.body);
+    }
 }

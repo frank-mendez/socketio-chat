@@ -4,6 +4,8 @@ import {UserEntity} from "../db/entities/user.entity";
 import {UserService} from "../user/user.service";
 import * as bcrypt from 'bcryptjs'
 import {JwtService} from "@nestjs/jwt";
+import {SignUpDto} from "./dto/signup.dto";
+import {GenderEnum} from "../enums/gender.enum";
 
 @Injectable()
 export class AuthService {
@@ -34,4 +36,33 @@ export class AuthService {
             ...payload
         }
     }
+
+    async signup(signupDto: SignUpDto): Promise<any> {
+        try{
+            const { username, password, fullName, gender, confirmPassword } = signupDto;
+            if(password !== confirmPassword) {
+                throw new ForbiddenException('Passwords do not match')
+            }
+
+            const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`
+            const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`
+
+            const createdUser = await this.userService.createUser({
+                username,
+                password: await bcrypt.hash(password, 10),
+                fullName,
+                gender,
+                profilePicture: gender === GenderEnum.MALE ? boyProfilePic : girlProfilePic
+            });
+
+            return {
+                access_token: this.jwtService.sign({ username: createdUser.username, fullName: createdUser.fullName }),
+                ...createdUser
+            }
+        } catch (error:any) {
+            console.log('error', error)
+            throw new ForbiddenException(error.message)
+        }
+    }
+
 }
