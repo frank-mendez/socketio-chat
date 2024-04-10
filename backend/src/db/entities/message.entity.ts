@@ -1,41 +1,34 @@
 import {
     BeforeCreate,
-    BeforeUpdate,
-    Collection,
+    BeforeUpdate, Collection,
     Entity, ManyToMany,
+    ManyToOne,
+    OneToMany,
     PrimaryKey,
-    Property,
-    Unique
+    Property
 } from "@mikro-orm/core";
-import {GenderEnum} from "../../enums/gender.enum";
+import {UserEntity} from "./user.entity";
 import {ConversationEntity} from "./conversation.entity";
 
-@Entity({tableName: 'users'})
-export class UserEntity {
-    constructor(dto: Partial<UserEntity>) {
+@Entity({tableName: 'messages'})
+export class MessageEntity {
+    constructor(dto: Partial<MessageEntity>) {
         Object.assign(this, dto);
     }
 
     @PrimaryKey()
     id: number;
 
-    @Property()
-    @Unique()
-    username: string;
+    @ManyToOne(() => UserEntity, { name: 'sender_id', nullable: false })
+    sender: UserEntity;
+
+    @ManyToOne(() => UserEntity, { name: 'receiver_id', nullable: false })
+    receiver: UserEntity;
 
     @Property()
-    fullName: string;
+    message: string;
 
-    @Property({ hidden: true})
-    password: string;
-
-    @Property()
-    gender: GenderEnum;
-
-    @Property()
-    profilePicture: string;
-
-    @ManyToMany(() => ConversationEntity, (conversation) => conversation.participants, { nullable: false, owner: true})
+    @ManyToMany(() => ConversationEntity, (conversation) => conversation.messages, { nullable: false, owner: true})
     conversations = new Collection<ConversationEntity>(this);
 
     @Property({ type: 'date' })
@@ -54,5 +47,4 @@ export class UserEntity {
     protected onBeforeUpdate(): void {
         this.updatedAt = new Date();
     }
-
 }

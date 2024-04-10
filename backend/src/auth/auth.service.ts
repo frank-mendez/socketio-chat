@@ -6,6 +6,7 @@ import * as bcrypt from 'bcryptjs'
 import {JwtService} from "@nestjs/jwt";
 import {SignUpDto} from "./dto/signup.dto";
 import {GenderEnum} from "../enums/gender.enum";
+import {jwtDecode} from "jwt-decode";
 
 @Injectable()
 export class AuthService {
@@ -30,11 +31,15 @@ export class AuthService {
     }
 
     async login(user: UserEntity): Promise<{ access_token: string, username: string, fullName: string }>{
-        const payload = { username: user.username, fullName: user.fullName };
+        const payload = { username: user.username, fullName: user.fullName, id: user.id };
         return {
             access_token: this.jwtService.sign(payload),
             ...payload
         }
+    }
+
+    async profile(id: number): Promise<UserEntity> {
+        return await this.userService.findById(id);
     }
 
     async signup(signupDto: SignUpDto): Promise<any> {
@@ -63,6 +68,10 @@ export class AuthService {
             console.log('error', error)
             throw new ForbiddenException(error.message)
         }
+    }
+
+    decodeToken(token: string): any {
+        return jwtDecode(token)
     }
 
 }

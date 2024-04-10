@@ -14,7 +14,6 @@ export class InitialSeeder extends Seeder {
             password: await bcrypt.hash('admin', salt),
             gender: GenderEnum.MALE,
             profilePicture: 'https://avatar.iran.liara.run/public/boy',
-            createdAt: new Date()
         });
 
         em.persist([initialUser]);

@@ -21,6 +21,14 @@ export class UserService {
         return user
     }
 
+    async findById(id: number): Promise<UserEntity> {
+        const user = await this.userRepository.findOne({ id });
+        if(!user) {
+            throw new NotFoundException(`User with id ${id} not found`);
+        }
+        return user
+    }
+
 
     async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
         const user = new UserEntity(createUserDto);

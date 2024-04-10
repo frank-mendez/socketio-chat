@@ -1,9 +1,9 @@
 import {defineConfig} from "@mikro-orm/postgresql";
 import 'dotenv/config';
-import {UserEntity} from "./db/entities/user.entity";
 import * as path from "node:path";
 import { SeedManager } from '@mikro-orm/seeder';
 import {Migrator} from "@mikro-orm/migrations";
+import {ConversationEntity, MessageEntity, UserEntity} from "./db/entities";
 
 const config = defineConfig({
     dbName: process.env.DB_NAME,
@@ -31,7 +31,7 @@ const config = defineConfig({
         fileName: (className: string) => className, // seeder file naming convention
     },
     // Entities configuration
-    entities: [UserEntity],
+    entities: [UserEntity, MessageEntity, ConversationEntity],
     // Extensions configuration
     extensions: [SeedManager, Migrator],
     allowGlobalContext: true,

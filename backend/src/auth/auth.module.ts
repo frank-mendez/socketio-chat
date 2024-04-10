@@ -8,7 +8,7 @@ import * as dotenv from 'dotenv'
 import {LocalStrategy} from "./local.auth";
 import {UserModule} from "../user/user.module";
 import {MikroOrmModule} from "@mikro-orm/nestjs";
-import {UserEntity} from "../db/entities/user.entity";
+import {UserEntity} from "../db/entities";
 dotenv.config()
 
 @Module({
