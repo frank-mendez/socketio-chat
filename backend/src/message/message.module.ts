@@ -17,7 +17,7 @@ dotenv.config()
           secret  : process.env.JWT_SECRET,
           signOptions: { expiresIn: '1d' },
       }),
-          MikroOrmModule.forFeature([UserEntity, MessageEntity, ConversationEntity])
+      MikroOrmModule.forFeature([UserEntity, MessageEntity, ConversationEntity])
   ],
   providers: [MessageService],
   controllers: [MessageController]

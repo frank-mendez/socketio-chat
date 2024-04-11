@@ -6,9 +6,9 @@ import { AuthModule } from './auth/auth.module';
 import configuration from "../config/configuration";
 import {MikroOrmModule} from "@mikro-orm/nestjs";
 import {PostgreSqlDriver} from "@mikro-orm/postgresql";
-import {UserEntity} from "./db/entities/user.entity";
 import { UserModule } from './user/user.module';
 import { MessageModule } from './message/message.module';
+import {ConversationEntity, MessageEntity, UserEntity} from "./db/entities";
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import { MessageModule } from './message/message.module';
               user: configService.get('DB_USER'),
               password: configService.get('DB_PASSWORD'),
               host: configService.get('DB_HOST'),
-              entities: [UserEntity],
+              entities: [UserEntity, MessageEntity, ConversationEntity],
               debug: true,
               migrations: {
                   tableName: 'mikro_orm_migrations',

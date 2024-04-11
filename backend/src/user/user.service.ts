@@ -36,4 +36,8 @@ export class UserService {
         return user
     }
 
+    async getUsers(id: number): Promise<UserEntity[]> {
+        return await this.userRepository.find({id: {$ne: id}});
+    }
+
 }

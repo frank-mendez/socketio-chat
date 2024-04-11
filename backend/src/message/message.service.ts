@@ -1,9 +1,9 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
-import {SendServiceDto} from "./dto/send-service.dto";
 import {InjectRepository} from "@mikro-orm/nestjs";
 import {ConversationEntity, MessageEntity, UserEntity} from "../db/entities";
-import {EntityRepository, FindOptions, wrap} from "@mikro-orm/postgresql";
+import {EntityRepository} from "@mikro-orm/postgresql";
 import {EntityManager} from "@mikro-orm/core";
+import {GetMessagesDto, SendServiceDto} from "./dto";
 
 @Injectable()
 export class MessageService {
@@ -22,16 +22,9 @@ export class MessageService {
         try {
             const {receiver, message, sender} = sendServiceDto;
 
-            const userReceiver = await this.userEntity.findOne({id: receiver});
-            const userSender = await this.userEntity.findOne({id: sender});
+            // Verify if sender and receiver exist
+            const {userReceiver, userSender} = await this.verifyUserConversation(sender, receiver);
 
-            if (!userReceiver) {
-                throw new Error('Receiver not found');
-            }
-
-            if (!userSender) {
-                throw new Error('Sender not found');
-            }
             // Check if conversation already exists
             let conversationExist = await this.conversationEntity.findOne({
                 $and: [
@@ -40,7 +33,6 @@ export class MessageService {
                 ]
             });
 
-            console.log('conversationExist', conversationExist);
             const newMessage = new MessageEntity({
                 message,
                 sender: userSender,
@@ -50,21 +42,58 @@ export class MessageService {
             await this.em.persistAndFlush(newMessage);
 
             if(!conversationExist) {
-                console.log('does not exist');
                 const newConversation = new ConversationEntity();
                 newConversation.participants.add(userSender);
                 newConversation.participants.add(userReceiver);
                 newConversation.messages.add(newMessage);
                 await this.em.persistAndFlush(newConversation);
             } else {
-                console.log('exists');
                 conversationExist.messages.add(newMessage);
                 await this.em.persistAndFlush(conversationExist);
             }
+
+            // Socket.io will be implemented here
+
+            return newMessage;
 
         } catch (e) {
             throw new NotFoundException(e.message);
         }
 
+    }
+
+    async getMessages(getMessageDto: GetMessagesDto) {
+        const {receiverId, senderId} = getMessageDto;
+        try {
+            // Verify if sender and receiver exist
+            const {userReceiver, userSender} = await this.verifyUserConversation(senderId, receiverId);
+
+            return await this.conversationEntity.findOne({
+                $and: [
+                    {participants: {id: userReceiver.id}},
+                    {participants: {id: userSender.id}}
+                ]
+            }, {populate: ['messages']});
+        } catch (e) {
+            throw new NotFoundException('Conversation not found');
+        }
+    }
+
+    async verifyUserConversation(senderId: number, receiverId: number): Promise<{userReceiver: UserEntity, userSender: UserEntity}> {
+        const userReceiver = await this.userEntity.findOne({id: receiverId});
+        const userSender = await this.userEntity.findOne({id: senderId});
+
+        if (!userReceiver) {
+            throw new NotFoundException('Receiver not found')
+        }
+
+        if (!userSender) {
+            throw new NotFoundException('Sender not found');
+        }
+
+        return {
+            userReceiver,
+            userSender
+        };
     }
 }
