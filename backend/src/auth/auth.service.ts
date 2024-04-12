@@ -6,21 +6,21 @@ import * as bcrypt from 'bcryptjs'
 import {JwtService} from "@nestjs/jwt";
 import {SignUpDto} from "./dto/signup.dto";
 import {GenderEnum} from "../enums/gender.enum";
-import {jwtDecode} from "jwt-decode";
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly userService: UserService,
         private readonly jwtService: JwtService
-    ) {}
+    ) {
+    }
 
     async validateUser(authDto: AuthDto): Promise<UserEntity> {
-        const { username, password } = authDto;
+        const {username, password} = authDto;
         const user = await this.userService.findByUsername(username);
-        if(user) {
+        if (user) {
             const isPasswordValid = await bcrypt.compare(password, user.password);
-            if(isPasswordValid) {
+            if (isPasswordValid) {
                 return user;
             } else {
                 throw new ForbiddenException('Invalid credentials')
@@ -30,22 +30,18 @@ export class AuthService {
         }
     }
 
-    async login(user: UserEntity): Promise<{ access_token: string, username: string, fullName: string }>{
-        const payload = { username: user.username, fullName: user.fullName, id: user.id };
+    async login(user: UserEntity): Promise<{ access_token: string, username: string, fullName: string }> {
+        const payload = {username: user.username, fullName: user.fullName, id: user.id};
         return {
             access_token: this.jwtService.sign(payload),
             ...payload
         }
     }
 
-    async profile(id: number): Promise<UserEntity> {
-        return await this.userService.findById(id);
-    }
-
     async signup(signupDto: SignUpDto): Promise<any> {
-        try{
-            const { username, password, fullName, gender, confirmPassword } = signupDto;
-            if(password !== confirmPassword) {
+        try {
+            const {username, password, fullName, gender, confirmPassword} = signupDto;
+            if (password !== confirmPassword) {
                 throw new ForbiddenException('Passwords do not match')
             }
 
@@ -61,17 +57,13 @@ export class AuthService {
             });
 
             return {
-                access_token: this.jwtService.sign({ username: createdUser.username, fullName: createdUser.fullName }),
+                access_token: this.jwtService.sign({username: createdUser.username, fullName: createdUser.fullName}),
                 ...createdUser
             }
-        } catch (error:any) {
+        } catch (error: any) {
             console.log('error', error)
             throw new ForbiddenException(error.message)
         }
-    }
-
-    decodeToken(token: string): any {
-        return jwtDecode(token)
     }
 
 }
