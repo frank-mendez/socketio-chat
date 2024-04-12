@@ -15,3 +15,12 @@ export type LoginUserType = {
     username: string
     password: string
 }
+
+export type UserSignupType = {
+    username: string;
+    password: string;
+    confirmPassword: string;
+    fullName: string;
+    gender: GenderEnum;
+
+}
