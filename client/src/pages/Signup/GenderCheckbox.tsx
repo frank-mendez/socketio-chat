@@ -1,21 +1,22 @@
 import {GenderEnum} from "../../enums/gender.enum.ts";
+import {UserSignupType} from "../../types/user-signup.ts";
+
 
 type GenderCheckboxProps = {
-    onChangeHandleCheckbox: (gender: GenderEnum) => void;
-    gender: GenderEnum
+    register: any,
 };
 
-const GenderCheckbox = ({onChangeHandleCheckbox, gender}: GenderCheckboxProps) => {
+const GenderCheckbox = ({register}: GenderCheckboxProps) => {
     return (
         <div className='flex mt-5'>
             <div className='form-control'>
                 <label className={`label gap-2 cursor-pointer`}>
                     <span className='label-text'>Male</span>
                     <input
-                        type='checkbox'
+                        type='radio'
+                        value={GenderEnum.MALE}
                         className='checkbox border-slate-900'
-                        checked={gender === GenderEnum.MALE}
-                        onChange={() => onChangeHandleCheckbox(GenderEnum.MALE)}
+                        {...register('gender')}
                     />
                 </label>
             </div>
@@ -23,10 +24,10 @@ const GenderCheckbox = ({onChangeHandleCheckbox, gender}: GenderCheckboxProps) =
                 <label className={`label gap-2 cursor-pointer`}>
                     <span className='label-text'>Female</span>
                     <input
-                        type='checkbox'
+                        type='radio'
                         className='checkbox border-slate-900'
-                        checked={gender === GenderEnum.FEMALE}
-                        onChange={() => onChangeHandleCheckbox(GenderEnum.FEMALE)}
+                        value={GenderEnum.FEMALE}
+                        {...register('gender')}
                     />
                 </label>
             </div>
