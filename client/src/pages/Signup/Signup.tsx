@@ -1,20 +1,24 @@
 import GenderCheckbox from "./GenderCheckbox.tsx";
-import {Link, redirect, useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import {UserSignupType} from "../../types/user-signup.ts";
 import {GenderEnum} from "../../enums/gender.enum.ts";
 import {useSignupMutation} from "../../api";
 import {useForm} from "react-hook-form";
 import {SignUpSchema} from "../../validations/SignUpSchema.ts";
 import {yupResolver} from "@hookform/resolvers/yup";
+import {UserSignupType} from "../../types";
+import {useAuthContext} from "../../context/AuthContext.tsx";
 
 const Signup = () => {
     const [error, setError] = useState<boolean>(false)
     const navigate = useNavigate();
+    const {setAuthUser} = useAuthContext();
     const {mutateAsync: signUp, isPending} = useSignupMutation({
         onSuccess: (data) => {
             console.log('data', data)
-            // Add to zustand state here
+            localStorage.setItem('chat-user', JSON.stringify(data))
+            //setAuthUser(data)
+            // Add to context
             setError(false)
             navigate('/', {replace: true})
         },

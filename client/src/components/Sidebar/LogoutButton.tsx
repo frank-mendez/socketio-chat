@@ -2,7 +2,7 @@ import {BiLogOut} from "react-icons/bi";
 
 const LogoutButton = () => {
     const logout = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('chat-user');
         window.location.reload();
     };
     const loading = false;
