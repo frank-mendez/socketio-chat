@@ -10,3 +10,8 @@ export type AuthUserType = {
     updatedAt: string
     id: number
 }
+
+export type LoginUserType = {
+    username: string
+    password: string
+}

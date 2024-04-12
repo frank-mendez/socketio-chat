@@ -4,23 +4,18 @@ import {useState} from "react";
 import {GenderEnum} from "../../enums/gender.enum.ts";
 import {useSignupMutation} from "../../api";
 import {useForm} from "react-hook-form";
-import {SignUpSchema} from "../../validations/SignUpSchema.ts";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {UserSignupType} from "../../types";
+import {AuthUserSchema} from "../../validations";
 import {useAuthContext} from "../../context/AuthContext.tsx";
 
 const Signup = () => {
     const [error, setError] = useState<boolean>(false)
-    const navigate = useNavigate();
-    const {setAuthUser} = useAuthContext();
+    const {setAuthUser} = useAuthContext()
     const {mutateAsync: signUp, isPending} = useSignupMutation({
         onSuccess: (data) => {
-            console.log('data', data)
-            localStorage.setItem('chat-user', JSON.stringify(data))
-            //setAuthUser(data)
-            // Add to context
+            setAuthUser(data)
             setError(false)
-            navigate('/', {replace: true})
         },
         onError: (error) => {
             setError(true)
@@ -35,7 +30,7 @@ const Signup = () => {
             fullName: '',
             gender: GenderEnum.MALE
         },
-        resolver: yupResolver(SignUpSchema)
+        resolver: yupResolver(AuthUserSchema)
     })
 
     const handleSubmitSignup = handleSubmit(async (data) => {

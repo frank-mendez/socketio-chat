@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {AuthUserType} from "../types";
-import {GenderEnum} from "../enums/gender.enum.ts";
+import {useNavigate} from "react-router-dom";
 
 
 export const AuthContext = createContext<AuthUserType | null>(null);
@@ -17,13 +17,22 @@ export const useAuthContext = () => {
 export const AuthContextProvider = ({children}) => {
     const chatUser = localStorage.getItem('chat-user');
     const [authUser, setAuthUser] = useState<AuthUserType | null>(null);
-
+    const navigate = useNavigate()
     useEffect(() => {
-        console.log('chatUser', chatUser)
         if (chatUser) {
             setAuthUser(JSON.parse(chatUser));
         }
     }, [chatUser]);
+
+    useEffect(() => {
+        if (authUser) {
+            localStorage.setItem('chat-user', JSON.stringify(authUser));
+            navigate('/')
+        } else {
+            localStorage.removeItem('chat-user');
+            navigate('/login')
+        }
+    }, [authUser]);
 
     return (
         <AuthContext.Provider value={{authUser, setAuthUser}}>

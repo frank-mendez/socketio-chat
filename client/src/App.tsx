@@ -11,15 +11,13 @@ function App() {
     const {authUser} = useAuthContext()
     return (
         <div className='p4 h-screen flex items-center justify-center'>
-            <BrowserRouter>
-                <QueryClientProvider client={queryClient}>
-                    <Routes>
-                        <Route path='/' element={authUser ? <Home/> : <Navigate to='/login'/>}/>
-                        <Route path='/login' element={authUser ? <Navigate to='/'/> : <Login/>}/>
-                        <Route path='/signup' element={authUser ? <Navigate to='/'/> : <Signup/>}/>
-                    </Routes>
-                </QueryClientProvider>
-            </BrowserRouter>
+            <QueryClientProvider client={queryClient}>
+                <Routes>
+                    <Route path='/' element={authUser ? <Home/> : <Navigate to='/login'/>}/>
+                    <Route path='/login' element={authUser ? <Navigate to='/'/> : <Login/>}/>
+                    <Route path='/signup' element={authUser ? <Navigate to='/'/> : <Signup/>}/>
+                </Routes>
+            </QueryClientProvider>
         </div>
     )
 }

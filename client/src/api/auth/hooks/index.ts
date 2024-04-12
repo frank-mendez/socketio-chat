@@ -1,1 +1,1 @@
-export {useSignupMutation} from './useSignupMutation';
+export {useSignupMutation, useLoginMutation} from './useAuthMutation.ts';
