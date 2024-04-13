@@ -22,6 +22,10 @@ export type SendMessageType = {
     message: string
 }
 
+export type SendMessageFormType = {
+    message: string
+}
+
 export type SendMessageResponseType = {
     id: number
     conversations: Conversation[]

@@ -1,6 +1,6 @@
 import {User} from "../types";
 import {create} from "zustand";
-import {devtools, persist} from "zustand/middleware";
+import {devtools} from "zustand/middleware";
 
 type State = {
     selectedConversation: User | null

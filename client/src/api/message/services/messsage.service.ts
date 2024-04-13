@@ -6,5 +6,5 @@ export const getMessages = async (id: number): Promise<MessageDetailsTypes> => {
 }
 
 export const sendMessage = async (data: SendMessageType): Promise<SendMessageResponseType> => {
-    return axios.post('/api/messages', data).then((res) => res.data);
+    return axios.post('/api/messages/send', data).then((res) => res.data);
 }

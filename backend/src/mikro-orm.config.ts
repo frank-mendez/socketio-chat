@@ -3,6 +3,9 @@ import * as path from "node:path";
 import {SeedManager} from '@mikro-orm/seeder';
 import {Migrator} from "@mikro-orm/migrations";
 import {ConversationEntity, MessageEntity, UserEntity} from "./db/entities";
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 const config = defineConfig({
     dbName: process.env.DB_NAME,

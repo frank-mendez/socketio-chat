@@ -15,7 +15,7 @@ const MessageContainer = () => {
                 </div>
 
                 <Messages user={selectedConversation}/>
-                <MessageInput/>
+                <MessageInput user={selectedConversation}/>
             </>)}
 
         </div>
