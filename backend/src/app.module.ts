@@ -9,6 +9,7 @@ import {PostgreSqlDriver} from "@mikro-orm/postgresql";
 import {UserModule} from './user/user.module';
 import {MessageModule} from './message/message.module';
 import {ConversationEntity, MessageEntity, UserEntity} from "./db/entities";
+import {SocketModule} from './socket/socket.module';
 
 @Module({
     imports: [
@@ -28,6 +29,9 @@ import {ConversationEntity, MessageEntity, UserEntity} from "./db/entities";
                 host: configService.get('DB_HOST'),
                 entities: [UserEntity, MessageEntity, ConversationEntity],
                 forceUtcTimezone: true,
+                driverOptions: {
+                    timezone: 'utc',
+                },
                 debug: true,
                 migrations: {
                     tableName: 'mikro_orm_migrations',
@@ -57,6 +61,7 @@ import {ConversationEntity, MessageEntity, UserEntity} from "./db/entities";
         UserModule,
         AuthModule,
         MessageModule,
+        SocketModule,
     ],
     controllers: [AppController],
     providers: [AppService],

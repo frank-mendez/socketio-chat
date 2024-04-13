@@ -1,11 +1,6 @@
 import {
-    BaseEntity,
-    BeforeCreate,
-    BeforeUpdate,
     Collection,
     Entity, ManyToMany,
-    ManyToOne,
-    OneToMany,
     PrimaryKey,
     Property
 } from "@mikro-orm/core";
@@ -24,20 +19,9 @@ export class ConversationEntity {
     messages = new Collection<MessageEntity>(this);
 
 
-    @Property()
+    @Property({type: 'datetime'})
     createdAt = new Date();
 
-    @Property({onUpdate: () => new Date()})
+    @Property({onUpdate: () => new Date(), type: 'datetime'})
     updatedAt = new Date();
-
-    @BeforeCreate()
-    protected onBeforeCreate(): void {
-        this.createdAt = new Date();
-        this.updatedAt = new Date();
-    }
-
-    @BeforeUpdate()
-    protected onBeforeUpdate(): void {
-        this.updatedAt = new Date();
-    }
 }

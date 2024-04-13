@@ -17,21 +17,23 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "date",
+          "type": "timestamptz",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "date"
+          "length": 6,
+          "mappedType": "datetime"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "date",
+          "type": "timestamptz",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "date"
+          "length": 6,
+          "mappedType": "datetime"
         }
       },
       "name": "conversations",
@@ -110,21 +112,23 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "date",
+          "type": "timestamptz",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "date"
+          "length": 6,
+          "mappedType": "datetime"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "date",
+          "type": "timestamptz",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "date"
+          "length": 6,
+          "mappedType": "datetime"
         }
       },
       "name": "users",
@@ -195,21 +199,23 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "date",
+          "type": "timestamptz",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "date"
+          "length": 6,
+          "mappedType": "datetime"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "date",
+          "type": "timestamptz",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "date"
+          "length": 6,
+          "mappedType": "datetime"
         }
       },
       "name": "messages",

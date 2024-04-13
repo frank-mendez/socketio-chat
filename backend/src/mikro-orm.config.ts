@@ -13,6 +13,9 @@ const config = defineConfig({
     password: process.env.DB_PASSWORD,
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT, 10),
+    driverOptions: {
+        timezone: 'utc',
+    },
     // Migrations configuration
     migrations: {
         tableName: 'mikro_orm_migrations',

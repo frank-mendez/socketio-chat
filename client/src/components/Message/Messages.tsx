@@ -1,18 +1,24 @@
 import Message from "./Message";
 import {useMessagesQuery} from "../../api";
 import {User} from "../../types";
-import {useRef} from "react";
+import {useEffect, useRef} from "react";
 import MessageSkeleton from "./MessageSkeleton.tsx";
 
 const Messages = ({user}: { user: User }) => {
-    const {data, isPending, isError} = useMessagesQuery(user.id);
-    console.log('data', data)
+    const {data, isPending} = useMessagesQuery(user.id);
+    const lastMessageRef = useRef();
+
+    useEffect(() => {
+        setTimeout(() => {
+            lastMessageRef.current?.scrollIntoView({behavior: "smooth"});
+        }, 100);
+    }, [data]);
     return (
         <div className='px-4 flex-1 overflow-auto'>
             {!isPending && data &&
                 data.messages.length > 0 &&
                 data.messages.map((message) => (
-                    <div key={message.id}>
+                    <div key={message.id} ref={lastMessageRef}>
                         <Message message={message}/>
                     </div>
                 ))}
