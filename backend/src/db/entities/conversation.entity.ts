@@ -13,7 +13,7 @@ import {UserEntity} from "./user.entity";
 import {MessageEntity} from "./message.entity";
 
 @Entity({tableName: 'conversations'})
-export class ConversationEntity{
+export class ConversationEntity {
     @PrimaryKey()
     id: number;
 
@@ -24,10 +24,10 @@ export class ConversationEntity{
     messages = new Collection<MessageEntity>(this);
 
 
-    @Property({ type: 'date' })
+    @Property()
     createdAt = new Date();
 
-    @Property({ onUpdate: () => new Date(), type: 'date' })
+    @Property({onUpdate: () => new Date()})
     updatedAt = new Date();
 
     @BeforeCreate()

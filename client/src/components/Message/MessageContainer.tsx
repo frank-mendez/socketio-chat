@@ -4,7 +4,7 @@ import {TiMessages} from "react-icons/ti";
 import {useConversationStore, useCurrentUserStore} from "../../store";
 
 const MessageContainer = () => {
-    const {selectedConversation, setSelectedConversation} = useConversationStore();
+    const {selectedConversation} = useConversationStore();
     return (
         <div className='md:min-w-[450px] flex flex-col'>
             {!selectedConversation ? <NoChatSelected/> : (<>
@@ -14,7 +14,7 @@ const MessageContainer = () => {
                     className='text-gray-900 font-bold'>{selectedConversation.fullName}</span>
                 </div>
 
-                <Messages/>
+                <Messages user={selectedConversation}/>
                 <MessageInput/>
             </>)}
 

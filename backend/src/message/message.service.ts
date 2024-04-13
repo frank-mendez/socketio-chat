@@ -41,7 +41,7 @@ export class MessageService {
 
             await this.em.persistAndFlush(newMessage);
 
-            if(!conversationExist) {
+            if (!conversationExist) {
                 const newConversation = new ConversationEntity();
                 newConversation.participants.add(userSender);
                 newConversation.participants.add(userReceiver);
@@ -79,7 +79,10 @@ export class MessageService {
         }
     }
 
-    async verifyUserConversation(senderId: number, receiverId: number): Promise<{userReceiver: UserEntity, userSender: UserEntity}> {
+    async verifyUserConversation(senderId: number, receiverId: number): Promise<{
+        userReceiver: UserEntity,
+        userSender: UserEntity
+    }> {
         const userReceiver = await this.userEntity.findOne({id: receiverId});
         const userSender = await this.userEntity.findOne({id: senderId});
 

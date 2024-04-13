@@ -1,7 +1,6 @@
 import {defineConfig} from "@mikro-orm/postgresql";
-import 'dotenv/config';
 import * as path from "node:path";
-import { SeedManager } from '@mikro-orm/seeder';
+import {SeedManager} from '@mikro-orm/seeder';
 import {Migrator} from "@mikro-orm/migrations";
 import {ConversationEntity, MessageEntity, UserEntity} from "./db/entities";
 

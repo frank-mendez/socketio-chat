@@ -3,7 +3,7 @@ import {MessageService} from "./message.service";
 import {AuthGuard} from "../auth/auth.guard";
 import {SendMessageDto} from "./dto";
 
-@Controller('message')
+@Controller('messages')
 export class MessageController {
 
     constructor(private messageService: MessageService) {
@@ -11,9 +11,9 @@ export class MessageController {
 
     @UseGuards(AuthGuard)
     @Post('send')
-    async sendMessage(@Body() sendMessageDto: SendMessageDto, @Request() req)  {
+    async sendMessage(@Body() sendMessageDto: SendMessageDto, @Request() req) {
         // Validate the request user and receiver id
-        if(+req.user.id === +sendMessageDto.receiver) {
+        if (+req.user.id === +sendMessageDto.receiver) {
             throw new MethodNotAllowedException('You cannot send message to yourself');
         }
 
@@ -28,7 +28,7 @@ export class MessageController {
     @Get('/:id')
     async getMessages(@Param('id') id: number, @Request() req) {
         // Validate the request user and receiver id
-        if(+req.user.id === +id) {
+        if (+req.user.id === +id) {
             throw new MethodNotAllowedException('You cannot get messages from yourself');
         }
 
