@@ -4,6 +4,7 @@ import {ConversationEntity, MessageEntity, UserEntity} from "../db/entities";
 import {EntityRepository} from "@mikro-orm/postgresql";
 import {EntityManager} from "@mikro-orm/core";
 import {GetMessagesDto, SendServiceDto} from "./dto";
+import {AppGateway} from "../app.gateway";
 
 @Injectable()
 export class MessageService {
@@ -14,7 +15,8 @@ export class MessageService {
         private readonly conversationEntity: EntityRepository<ConversationEntity>,
         @InjectRepository(UserEntity)
         private readonly userEntity: EntityRepository<UserEntity>,
-        private readonly em: EntityManager
+        private readonly em: EntityManager,
+        private readonly appGateway: AppGateway
     ) {
     }
 
@@ -53,8 +55,21 @@ export class MessageService {
             }
 
             // Socket.io will be implemented here
+            const receiverSocket = this.appGateway.getReceiverSocketId(receiver.toString());
+            if (receiverSocket) {
+                console.log('receiverSocket', receiverSocket);
+                this.appGateway.server.to(receiverSocket).emit('newMessage', newMessage);
+            }
 
-            return newMessage;
+            return {
+                id: newMessage.id,
+                sender,
+                receiver,
+                message: newMessage.message,
+                createdAt: newMessage.createdAt,
+                updatedAt: newMessage.updatedAt,
+                conversations: newMessage.conversations
+            }
 
         } catch (e) {
             throw new NotFoundException(e.message);

@@ -13,7 +13,6 @@ import {SocketService} from './socket/socket.service';
 export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
     constructor(private socketService: SocketService) {
-
     }
 
     private userSocketMap = {}
@@ -36,8 +35,11 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     handleConnection(client: Socket, ...args: any[]) {
         this.logger.log(`Client connected: ${client.id}`);
         const userId = client.handshake.query.userId as string;
-        console.log('userId', userId)
         if (userId != "undefined") this.userSocketMap[userId] = client.id;
         this.socketService.socket.emit('getOnlineUsers', Object.keys(this.userSocketMap))
+    }
+
+    public getReceiverSocketId(receiverId: string) {
+        return this.userSocketMap[receiverId]
     }
 }

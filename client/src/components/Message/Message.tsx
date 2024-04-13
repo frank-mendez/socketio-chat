@@ -3,7 +3,6 @@ import {useConversationStore, useCurrentUserStore} from "../../store";
 import {DateTime} from "luxon";
 
 const Message = ({message}: { message: MessageType }) => {
-    console.log('message', message)
     const {currentUser} = useCurrentUserStore()
     const {selectedConversation} = useConversationStore();
     const fromMe = message.sender === currentUser.id;

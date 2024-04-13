@@ -5,10 +5,9 @@ import {SendMessageFormType} from "../../types/message.types.ts";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {MessageSchema} from "../../validations/MessageSchema.ts";
 import {useMessageMutation} from "../../api";
-import {useQueryClient} from "@tanstack/react-query";
+import {useMessageStore} from "../../store";
 
 const MessageInput = ({user}: { user: User }) => {
-    const queryClient = useQueryClient();
 
     const {register, handleSubmit, formState: {errors}, setValue} = useForm<SendMessageFormType>({
         defaultValues: {
@@ -16,12 +15,12 @@ const MessageInput = ({user}: { user: User }) => {
         },
         resolver: yupResolver(MessageSchema)
     })
+    const {messages, setMessages} = useMessageStore()
     const {mutateAsync: sendMessage, isPending, isError} = useMessageMutation({
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['messages'],
-            });
+        onSuccess: (data) => {
+            console.log('data', data)
             setValue('message', '')
+            setMessages([...messages, data])
         }
     })
 

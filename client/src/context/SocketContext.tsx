@@ -20,17 +20,22 @@ export const SocketContextProvider = ({children}) => {
 
     useEffect(() => {
         if (authUser) {
-            const socket = io(import.meta.env.VITE_HOST_API, {
+            const client = io(import.meta.env.VITE_HOST_API, {
                 transports: ['websocket'],
                 query: {
                     userId: authUser.id
                 }
             })
-            setSocket(socket)
-            socket.on('getOnlineUsers', (data) => {
-                console.log('data', data)
+            setSocket(client)
+            client.on('getOnlineUsers', (data) => {
                 setOnlineUsers(data)
             })
+            return () => client.close();
+        } else {
+            if (socket) {
+                socket.close();
+                setSocket(null);
+            }
         }
     }, [authUser]);
     return (
