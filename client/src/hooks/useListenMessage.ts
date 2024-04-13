@@ -1,6 +1,7 @@
 import {useSocketContext} from "../context/SocketContext.tsx";
 import {useMessageStore} from "../store";
 import {useEffect} from "react";
+import notificationSound from "../assets/sounds/notification.mp3";
 
 export const useListenMessage = () => {
     const {socket} = useSocketContext()
@@ -8,8 +9,9 @@ export const useListenMessage = () => {
 
     useEffect(() => {
         socket?.on('newMessage', (message) => {
-            console.log('newMessage', message)
-            console.log('messages', messages)
+            message.shouldShake = true;
+            const sound = new Audio(notificationSound);
+            sound.play();
             setMessages([...messages, message])
         })
 

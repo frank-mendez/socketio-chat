@@ -15,6 +15,7 @@ export type MessageType = {
     createdAt: string
     updatedAt: string
     conversations: number[]
+    shouldShake: boolean
 }
 
 export type SendMessageType = {
