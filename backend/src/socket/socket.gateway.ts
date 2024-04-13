@@ -1,14 +1,14 @@
 import {
-    OnGatewayConnection,
-    OnGatewayDisconnect,
-    OnGatewayInit,
     SubscribeMessage,
-    WebSocketGateway
+    WebSocketGateway, WebSocketServer
 } from '@nestjs/websockets';
 import {Logger} from "@nestjs/common";
+import {Server} from 'socket.io';
 
 @WebSocketGateway({cors: true})
 export class SocketGateway {
+    @WebSocketServer()
+    server: Server;
 
     private readonly logger = new Logger(SocketGateway.name);
 
