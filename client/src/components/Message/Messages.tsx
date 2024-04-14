@@ -11,18 +11,21 @@ const Messages = ({user}: { user: User }) => {
     const {messages, setMessages} = useMessageStore()
     const lastMessageRef = useRef();
 
+    // listen for new messages
     useListenMessage();
 
     useEffect(() => {
         if (data && data.messages.length > 0) {
-            setMessages(data.messages)
+            setMessages(data.messages) // set messages to store
+        } else {
+            setMessages([])
         }
 
     }, [data]);
 
     useEffect(() => {
         setTimeout(() => {
-            lastMessageRef.current?.scrollIntoView({behavior: "smooth"});
+            lastMessageRef.current?.scrollIntoView({behavior: "smooth"}); // scroll to last message
         }, 100);
     }, [messages]);
 
