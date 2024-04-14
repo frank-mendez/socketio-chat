@@ -1,0 +1,33 @@
+{
+  "name": "socketio-chat",
+  "version": "1.0.0",
+  "description": "A chat application using nestjs, reactjs, socketio, jwt, mikroorm, tailwindcss",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "cd backend && npm run start:dev",
+    "client": "cd client && npm run dev",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frank-mendez/socketio-chat.git"
+  },
+  "keywords": [
+    "typescript",
+    "reactjs",
+    "nestjs",
+    "mikroorm",
+    "socketio",
+    "tailwindcss"
+  ],
+  "author": "Frank Mendez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frank-mendez/socketio-chat/issues"
+  },
+  "homepage": "https://github.com/frank-mendez/socketio-chat#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
