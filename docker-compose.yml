@@ -1,0 +1,22 @@
+version: "3"
+services:
+  frontend:
+    container_name: client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: react
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./client:/app
+  backend:
+    container_name: backend
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: server
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/app
