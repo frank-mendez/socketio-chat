@@ -61,9 +61,16 @@ export class AuthService {
                 profilePicture: gender === GenderEnum.MALE ? boyProfilePic : girlProfilePic
             });
 
+
+            const payload = {
+                username: createdUser.username,
+                fullName: createdUser.fullName,
+                id: createdUser.id,
+                profilePicture: createdUser.profilePicture
+            };
             return {
-                access_token: this.jwtService.sign({username: createdUser.username, fullName: createdUser.fullName}),
-                ...createdUser
+                access_token: this.jwtService.sign(payload),
+                ...payload
             }
         } catch (error: any) {
             console.log('error', error)

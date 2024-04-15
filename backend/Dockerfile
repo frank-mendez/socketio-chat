@@ -1,16 +1,23 @@
-FROM node:21.6.2
+# Start from the official Node.js LTS base image
+FROM node:16-alpine
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /src/node_modules/.bin:$PATH
+# Set the working directory in the Docker container
+WORKDIR /usr/src/app
 
-# install app dependencies
-COPY package.json ./
-COPY package-lock.json ./
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
+# Install dependencies in the Docker container
 RUN npm install
 
+# Copy the rest of the code to the working directory
 COPY . .
 
+# Compile the TypeScript code to JavaScript
+RUN npm run build
+
+# Expose the port that the app runs on
 EXPOSE 3000
 
-CMD ["npm", "run", "start:dev"]
+# Start the application
+CMD ["node", "dist/main"]

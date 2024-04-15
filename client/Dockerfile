@@ -1,18 +1,26 @@
-FROM node:21.6.2
+# Start from the official Node.js LTS base image
+FROM node:16-alpine
 
-WORKDIR /src
+# Set the working directory in the Docker container
+WORKDIR /usr/src/app
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /src/node_modules/.bin:$PATH
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
-# install app dependencies
-COPY package.json ./
-COPY package-lock.json ./
-
+# Install dependencies in the Docker container
 RUN npm install
 
-COPY . ./
+# Copy the rest of the code to the working directory
+COPY . .
 
-EXPOSE 4000
+# Build the React application
+RUN npm run build
 
-CMD ["npm", "run", "dev"]
+# Install serve to serve the built application
+RUN npm install -g serve
+
+# Expose the port that the app runs on
+EXPOSE 5000
+
+# Serve the application
+CMD ["serve", "-s", "dist", "-l", "5173"]

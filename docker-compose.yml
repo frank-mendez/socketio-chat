@@ -1,22 +1,44 @@
-version: "3"
 services:
-  frontend:
-    container_name: client
+  client:
     build:
       context: ./client
       dockerfile: Dockerfile
-    image: react
-    ports:
-      - "4000:4000"
     volumes:
-      - ./client:/app
-  backend:
-    container_name: backend
+      - ./client:/src
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_HOST_API=${VITE_HOST_API}
+
+  server:
     build:
-      context: ./server
+      context: ./backend
       dockerfile: Dockerfile
-    image: server
+    command: npm run start:prod
+    volumes:
+      - ./backend:/src
     ports:
       - "3000:3000"
+    environment:
+      - PORT=${PORT}
+      - ENV_PORT=${ENV_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - ./server:/app
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:

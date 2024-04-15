@@ -37,7 +37,7 @@ export const tokenExpired = (exp: number) => {
         alert('Token expired');
 
         sessionStorage.removeItem('accessToken');
-
+        localStorage.removeItem('chat-user');
         window.location.href = '/login';
     }, timeLeft);
 };

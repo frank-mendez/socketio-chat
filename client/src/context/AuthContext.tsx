@@ -1,11 +1,10 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {AuthUserType} from "../types";
 import {useNavigate} from "react-router-dom";
 import {isValidToken, setSession} from "../utils";
 import {useCurrentUserStore} from "../store";
 
 
-export const AuthContext = createContext<AuthUserType | null>(null);
+export const AuthContext = createContext(null);
 
 export const useAuthContext = () => {
     const context = useContext(AuthContext);
@@ -18,12 +17,14 @@ export const useAuthContext = () => {
 
 export const AuthContextProvider = ({children}) => {
     const chatUser = localStorage.getItem('chat-user');
-    const [authUser, setAuthUser] = useState<AuthUserType | null>(null);
+    const [authUser, setAuthUser] = useState(null);
     const navigate = useNavigate()
     const {setCurrentUser} = useCurrentUserStore();
     useEffect(() => {
         if (chatUser) {
             setAuthUser(JSON.parse(chatUser));
+        } else {
+            setAuthUser(null);
         }
     }, [chatUser]);
 
@@ -37,9 +38,10 @@ export const AuthContextProvider = ({children}) => {
             }
             navigate('/')
         } else {
+            setCurrentUser(null);
+            setAuthUser(null);
             localStorage.removeItem('chat-user');
             navigate('/login')
-            setCurrentUser(null);
         }
     }, [authUser]);
 
