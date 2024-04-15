@@ -1,15 +1,4 @@
 services:
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    volumes:
-      - ./client:/src
-    ports:
-      - "5173:5173"
-    environment:
-      - VITE_HOST_API=${VITE_HOST_API}
-
   server:
     build:
       context: ./backend
@@ -31,7 +20,7 @@ services:
       - db
 
   db:
-    image: postgres
+    image: postgres-alpine
     restart: always
     environment:
       POSTGRES_DB: ${DB_NAME}
