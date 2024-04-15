@@ -4,7 +4,7 @@ export const createBaseAxiosInstance = (
     configOverrides: CreateAxiosDefaults = {}
 ) => {
     return axios.create({
-        baseURL: process.env.VITE_HOST_API,
+        baseURL: 'http://localhost:3000',
         ...configOverrides,
     });
 };
