@@ -1,9 +1,9 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
-import {io} from "socket.io-client";
+import {io, Socket} from "socket.io-client";
 import {useAuthContext} from "./AuthContext.tsx";
 
 interface SocketContextType {
-    socket: any | null;
+    socket: Socket | null;
     onlineUsers: string[];
 }
 
@@ -18,8 +18,9 @@ export const useSocketContext = () => {
 }
 
 export const SocketContextProvider = ({children}: { children: ReactNode }) => {
-    const {authUser} = useAuthContext()
-    const [socket, setSocket] = useState(null);
+    const context = useAuthContext()
+    const authUser = context ? context.authUser : null;
+    const [socket, setSocket] = useState<Socket | null>(null);
     const [onlineUsers, setOnlineUsers] = useState<string[]>([])
 
     useEffect(() => {
@@ -30,12 +31,13 @@ export const SocketContextProvider = ({children}: { children: ReactNode }) => {
                     userId: authUser.id
                 }
             })
-            // @ts-ignore
             setSocket(client)
             client.on('getOnlineUsers', (data) => {
                 setOnlineUsers(data)
             })
-            return () => client.close();
+            return () => {
+                void client.close();
+            };
         } else {
             if (socket) {
                 socket.close();

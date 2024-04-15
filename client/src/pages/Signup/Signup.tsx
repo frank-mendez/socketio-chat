@@ -11,7 +11,9 @@ import {useAuthContext} from "../../context/AuthContext.tsx";
 
 const Signup = () => {
     const [error, setError] = useState<boolean>(false)
-    const {setAuthUser} = useAuthContext()
+    const context = useAuthContext();
+    const setAuthUser = context ? context.setAuthUser : () => {
+    };
     const {mutateAsync: signUp, isPending} = useSignupMutation({
         onSuccess: (data) => {
             setAuthUser(data)
@@ -30,7 +32,7 @@ const Signup = () => {
             fullName: '',
             gender: GenderEnum.MALE
         },
-        resolver: yupResolver(AuthUserSchema)
+        resolver: yupResolver(AuthUserSchema) as any
     })
 
     const handleSubmitSignup = handleSubmit(async (data) => {

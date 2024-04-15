@@ -1,5 +1,5 @@
 import {BsSend} from "react-icons/bs";
-import {User} from "../../types";
+import {MessageType, User} from "../../types";
 import {useForm} from "react-hook-form";
 import {SendMessageFormType} from "../../types/message.types.ts";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -18,8 +18,23 @@ const MessageInput = ({user}: { user: User }) => {
     const {messages, setMessages} = useMessageStore()
     const {mutateAsync: sendMessage, isPending} = useMessageMutation({
         onSuccess: (data) => {
+            console.log('data', data)
+
+            const messageResponse: MessageType = {
+                id: data.id,
+                sender: data.sender,
+                receiver: data.receiver,
+                message: data.message,
+                createdAt: data.createdAt,
+                updatedAt: data.updatedAt,
+                conversations: data.conversations.map((conversation) => conversation.id),
+                shouldShake: true
+            }
+
+            console.log('messageResponse', messageResponse)
+
             setValue('message', '')
-            setMessages([...messages, data])
+            setMessages([...messages, messageResponse])
         }
     })
 

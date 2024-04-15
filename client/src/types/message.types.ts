@@ -1,5 +1,3 @@
-import {User} from "./user.types.ts";
-
 export type MessageDetailsTypes = {
     id: number
     createdAt: string
@@ -30,11 +28,12 @@ export type SendMessageFormType = {
 export type SendMessageResponseType = {
     id: number
     conversations: Conversation[]
-    sender: User
-    receiver: User
+    sender: number
+    receiver: number
     message: string
     createdAt: string
     updatedAt: string
+    shouldShake: boolean
 }
 
 export interface Conversation {

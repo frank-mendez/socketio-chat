@@ -10,7 +10,9 @@ import {useAuthContext} from "../../context/AuthContext.tsx";
 const Login = () => {
     const [error, setError] = useState<boolean>(false)
     const [errorText, setErrorText] = useState<string>('')
-    const {setAuthUser} = useAuthContext()
+    const context = useAuthContext();
+    const setAuthUser = context ? context.setAuthUser : () => {
+    };
     const {mutateAsync: login} = useLoginMutation({
         onSuccess: (data) => {
             setAuthUser(data)

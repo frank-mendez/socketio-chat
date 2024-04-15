@@ -14,6 +14,6 @@ export const useCurrentUserStore = create<CurrentUserType & Action>()(
     devtools(
         (set) => ({
             currentUser: null,
-            setCurrentUser: (user: AuthUserType) => set({currentUser: user})
+            setCurrentUser: (user: AuthUserType | null) => set({currentUser: user})
         })
     ))

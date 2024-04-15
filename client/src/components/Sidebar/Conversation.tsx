@@ -6,7 +6,8 @@ const Conversation = ({user, lastIdx, emoji}: { user: User, lastIdx: boolean, em
 
     const {selectedConversation, setSelectedConversation} = useConversationStore();
     const isSelected = selectedConversation?.id === user.id;
-    const {onlineUsers} = useSocketContext();
+    const context = useSocketContext();
+    const onlineUsers = context ? context.onlineUsers : [];
     const isOnline = onlineUsers.includes(user.id.toString());
 
     return (
