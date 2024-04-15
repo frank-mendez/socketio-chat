@@ -2,7 +2,7 @@ import {User} from "../../types";
 import {useConversationStore} from "../../store";
 import {useSocketContext} from "../../context/SocketContext.tsx";
 
-const Conversation = ({user, lastIdx, emoji}: { user: User, lastIdx: number, emoji: string }) => {
+const Conversation = ({user, lastIdx, emoji}: { user: User, lastIdx: boolean, emoji: string }) => {
 
     const {selectedConversation, setSelectedConversation} = useConversationStore();
     const isSelected = selectedConversation?.id === user.id;

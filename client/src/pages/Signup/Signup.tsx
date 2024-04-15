@@ -1,5 +1,5 @@
 import GenderCheckbox from "./GenderCheckbox.tsx";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useState} from "react";
 import {GenderEnum} from "../../enums/gender.enum.ts";
 import {useSignupMutation} from "../../api";
@@ -17,7 +17,7 @@ const Signup = () => {
             setAuthUser(data)
             setError(false)
         },
-        onError: (error) => {
+        onError: () => {
             setError(true)
         }
     })

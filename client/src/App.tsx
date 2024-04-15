@@ -8,7 +8,8 @@ import {useAuthContext} from "./context/AuthContext.tsx";
 
 function App() {
     const queryClient = new QueryClient()
-    const {authUser} = useAuthContext()
+    const authContext = useAuthContext()
+    const authUser = authContext ? authContext.authUser : null;
     return (
         <div className='p4 h-screen flex items-center justify-center'>
             <QueryClientProvider client={queryClient}>

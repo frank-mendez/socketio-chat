@@ -4,11 +4,8 @@ export type AuthUserType = {
     access_token: string
     username: string
     fullName: string
-    gender: GenderEnum
-    profilePicture: string
-    createdAt: string
-    updatedAt: string
     id: number
+    profilePicture: string
 }
 
 export type LoginUserType = {
@@ -22,5 +19,4 @@ export type UserSignupType = {
     confirmPassword: string;
     fullName: string;
     gender: GenderEnum;
-
 }

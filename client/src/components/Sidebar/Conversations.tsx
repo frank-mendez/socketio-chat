@@ -4,7 +4,7 @@ import {User} from "../../types";
 import {getRandomEmoji} from "../../utils";
 
 const Conversations = () => {
-    const {data, isPending, isError} = useUsersQuery({});
+    const {data, isPending, isError} = useUsersQuery();
     return (
         <div className='py-2 flex flex-col overflow-auto'>
             {isPending ? <span className='loading loading-spinner mx-auto'></span> : null}

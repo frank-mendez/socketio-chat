@@ -1,3 +1,3 @@
-export {AuthUserType, LoginUserType, UserSignupType} from './auth.types.ts';
-export {User} from './user.types.ts';
-export {MessageDetailsTypes, MessageType, SendMessageType, SendMessageResponseType} from './message.types.ts';
+export type * from './auth.types.ts';
+export type * from './user.types.ts';
+export type * from './message.types.ts';

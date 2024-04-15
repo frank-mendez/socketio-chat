@@ -1,5 +1,4 @@
 import {GenderEnum} from "../../enums/gender.enum.ts";
-import {UserSignupType} from "../../types/user-signup.ts";
 
 
 type GenderCheckboxProps = {

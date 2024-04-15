@@ -1,8 +1,13 @@
-import {createContext, useContext, useEffect, useState} from "react";
+import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import {io} from "socket.io-client";
 import {useAuthContext} from "./AuthContext.tsx";
 
-const SocketContext = createContext(null);
+interface SocketContextType {
+    socket: any | null;
+    onlineUsers: string[];
+}
+
+const SocketContext = createContext<SocketContextType | null>(null);
 
 export const useSocketContext = () => {
     const context = useContext(SocketContext);
@@ -12,7 +17,7 @@ export const useSocketContext = () => {
     return context;
 }
 
-export const SocketContextProvider = ({children}) => {
+export const SocketContextProvider = ({children}: { children: ReactNode }) => {
     const {authUser} = useAuthContext()
     const [socket, setSocket] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState<string[]>([])
@@ -25,6 +30,7 @@ export const SocketContextProvider = ({children}) => {
                     userId: authUser.id
                 }
             })
+            // @ts-ignore
             setSocket(client)
             client.on('getOnlineUsers', (data) => {
                 setOnlineUsers(data)

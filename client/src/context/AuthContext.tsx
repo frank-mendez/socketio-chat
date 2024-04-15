@@ -1,10 +1,16 @@
-import {createContext, useContext, useEffect, useState} from "react";
+import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {isValidToken, setSession} from "../utils";
 import {useCurrentUserStore} from "../store";
+import {AuthUserType} from "../types";
+
+export type AuthContextType = {
+    authUser: AuthUserType | null;
+    setAuthUser: React.Dispatch<React.SetStateAction<AuthUserType | null>>;
+};
 
 
-export const AuthContext = createContext(null);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const useAuthContext = () => {
     const context = useContext(AuthContext);
@@ -15,9 +21,9 @@ export const useAuthContext = () => {
 
 }
 
-export const AuthContextProvider = ({children}) => {
+export const AuthContextProvider = ({children}: { children: ReactNode }) => {
     const chatUser = localStorage.getItem('chat-user');
-    const [authUser, setAuthUser] = useState(null);
+    const [authUser, setAuthUser] = useState<AuthUserType | null>(null);
     const navigate = useNavigate()
     const {setCurrentUser} = useCurrentUserStore();
     useEffect(() => {

@@ -1,19 +1,19 @@
-import {User} from "../types";
-import {devtools, persist} from "zustand/middleware";
+import {AuthUserType} from "../types";
+import {devtools} from "zustand/middleware";
 import {create} from "zustand";
 
 type CurrentUserType = {
-    currentUser: User | null;
+    currentUser: AuthUserType | null;
 }
 
 type Action = {
-    setCurrentUser: (user: User) => void
+    setCurrentUser: (user: AuthUserType | null) => void
 }
 
 export const useCurrentUserStore = create<CurrentUserType & Action>()(
     devtools(
         (set) => ({
             currentUser: null,
-            setCurrentUser: (user: User) => set({currentUser: user})
+            setCurrentUser: (user: AuthUserType) => set({currentUser: user})
         })
     ))

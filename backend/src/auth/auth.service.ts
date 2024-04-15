@@ -6,6 +6,7 @@ import * as bcrypt from 'bcryptjs'
 import {JwtService} from "@nestjs/jwt";
 import {SignUpDto} from "./dto/signup.dto";
 import {GenderEnum} from "../enums/gender.enum";
+import {AuthUserType} from "../types";
 
 @Injectable()
 export class AuthService {
@@ -30,7 +31,7 @@ export class AuthService {
         }
     }
 
-    async login(user: UserEntity): Promise<{ access_token: string, username: string, fullName: string }> {
+    async login(user: UserEntity): Promise<AuthUserType> {
         const payload = {
             username: user.username,
             fullName: user.fullName,
@@ -43,7 +44,7 @@ export class AuthService {
         }
     }
 
-    async signup(signupDto: SignUpDto): Promise<any> {
+    async signup(signupDto: SignUpDto): Promise<AuthUserType> {
         try {
             const {username, password, fullName, gender, confirmPassword} = signupDto;
             if (password !== confirmPassword) {

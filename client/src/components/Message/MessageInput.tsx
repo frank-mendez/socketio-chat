@@ -16,9 +16,8 @@ const MessageInput = ({user}: { user: User }) => {
         resolver: yupResolver(MessageSchema)
     })
     const {messages, setMessages} = useMessageStore()
-    const {mutateAsync: sendMessage, isPending, isError} = useMessageMutation({
+    const {mutateAsync: sendMessage, isPending} = useMessageMutation({
         onSuccess: (data) => {
-            console.log('data', data)
             setValue('message', '')
             setMessages([...messages, data])
         }

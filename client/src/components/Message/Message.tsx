@@ -5,10 +5,10 @@ import {DateTime} from "luxon";
 const Message = ({message}: { message: MessageType }) => {
     const {currentUser} = useCurrentUserStore()
     const {selectedConversation} = useConversationStore();
-    const fromMe = message.sender === currentUser.id;
+    const fromMe = message.sender === currentUser?.id;
     const formattedTime = DateTime.fromISO(message.updatedAt).toLocaleString(DateTime.TIME_SIMPLE);
     const chatClassName = fromMe ? "chat-end" : "chat-start";
-    const profilePic = fromMe ? currentUser.profilePicture : selectedConversation?.profilePicture;
+    const profilePic = fromMe ? currentUser?.profilePicture : selectedConversation?.profilePicture;
     const bubbleBgColor = fromMe ? "bg-blue-500" : "";
     const shakeClass = message.shouldShake ? "shake" : "";
     return (

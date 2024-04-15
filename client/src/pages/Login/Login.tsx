@@ -1,4 +1,4 @@
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {LoginUserType} from "../../types";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -11,12 +11,12 @@ const Login = () => {
     const [error, setError] = useState<boolean>(false)
     const [errorText, setErrorText] = useState<string>('')
     const {setAuthUser} = useAuthContext()
-    const {mutateAsync: login, isPending} = useLoginMutation({
+    const {mutateAsync: login} = useLoginMutation({
         onSuccess: (data) => {
             setAuthUser(data)
             setError(false)
         },
-        onError: (error) => {
+        onError: (error: any) => {
             setError(true)
             setErrorText(error.response.data.message)
         }
@@ -57,7 +57,7 @@ const Login = () => {
                         </label>
                         <input
                             type='text'
-                            className={`w-full input input-bordered h-10 ${errors.fullName ? 'input-error' : ''}`}
+                            className={`w-full input input-bordered h-10 ${errors.username ? 'input-error' : ''}`}
                             placeholder='Enter your username'
                             {...register('username')}
                         />
@@ -69,7 +69,7 @@ const Login = () => {
                         </label>
                         <input
                             type='password'
-                            className={`w-full input input-bordered h-10 ${errors.fullName ? 'input-error' : ''}`}
+                            className={`w-full input input-bordered h-10 ${errors.password ? 'input-error' : ''}`}
                             placeholder='Password'
                             {...register('password')}
                         />

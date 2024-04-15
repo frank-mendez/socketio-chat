@@ -9,7 +9,7 @@ import {useListenMessage} from "../../hooks";
 const Messages = ({user}: { user: User }) => {
     const {data, isPending} = useMessagesQuery(user.id);
     const {messages, setMessages} = useMessageStore()
-    const lastMessageRef = useRef();
+    const lastMessageRef = useRef<HTMLDivElement>(null);
 
     // listen for new messages
     useListenMessage();
@@ -25,7 +25,9 @@ const Messages = ({user}: { user: User }) => {
 
     useEffect(() => {
         setTimeout(() => {
-            lastMessageRef.current?.scrollIntoView({behavior: "smooth"}); // scroll to last message
+            if (lastMessageRef.current) {
+                (lastMessageRef.current as HTMLElement).scrollIntoView({behavior: "smooth"});
+            }
         }, 100);
     }, [messages]);
 
